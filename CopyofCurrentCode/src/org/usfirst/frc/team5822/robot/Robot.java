@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-
 	public static OI oi;
 	
 	public static final DriveTrain driveTrain = new DriveTrain();
@@ -47,7 +46,6 @@ public class Robot extends IterativeRobot {
 	
 //	public static NetworkTable piTable;
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
 	public static VisionPID vision;
 	//public static DriveTrain driveTrain = null;
 //	ITableListener_WB piListen = new ITableListener_WB();
@@ -67,16 +65,11 @@ public class Robot extends IterativeRobot {
 	public static Preferences prefs; 
 	 
 	
-	SendableChooser<String> chooseAlliance; 
-	SendableChooser<String> chooseShoot; 
-	SendableChooser<String> chooseGear; 
-	SendableChooser<String> chooseOrder; 
+	SendableChooser<String> chooseAutonomous; 
+
 	public Robot() {
-		chooseAlliance = new SendableChooser<>(); 
-		chooseShoot = new SendableChooser<>(); 
-		chooseGear = new SendableChooser<>(); 
-		chooseOrder = new SendableChooser<>(); 
-		chooser = new SendableChooser<>();
+		chooseAutonomous = new SendableChooser<>(); 
+		
 	}
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -87,29 +80,20 @@ public class Robot extends IterativeRobot {
 		vision = new VisionPID();
 		//Robot.driveTrain = new DriveTrain();
 		oi = new OI();
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", chooseAutonomous);
 		
-		chooseShoot.addObject("Cross Baseline Only", "crossOnly");
-		chooseShoot.addObject("Shoot Only", "shootOnly");
-		chooseShoot.addObject("Gear Only", "gearOnly");
-		chooseShoot.addObject("Gear and Shoot", "gearAndShoot");
-		
-		chooseGear.addObject("Peg Position 1", "peg1");
-		chooseGear.addObject("Peg Poistion 2", "peg2");
-		chooseGear.addObject("Peg Position 3", "peg3");
-		
-		chooseAlliance.addObject("Red Alliance", "red");
-		chooseAlliance.addObject("Blue Alliance", "blue");
-		
-		chooseOrder.addObject("Peg First", "pegFirst");
-		chooseOrder.addObject("Shoot First", "shootFirst");
-		chooseOrder.addObject("Neither", "neither");
-			
-		SmartDashboard.putData("Auto Gear", chooseGear);
-		SmartDashboard.putData("Auto Shoot", chooseShoot);
-		SmartDashboard.putData("Auto Alliance", chooseAlliance);
-		SmartDashboard.putData("Auto Order", chooseOrder);
-		 
+		chooseAutonomous.addObject("Cross Baseline Only", "crossOnly");
+		chooseAutonomous.addObject("Shoot Only", "shootOnly");
+		chooseAutonomous.addObject("Center Gear Only", "centerGearOnly");
+		chooseAutonomous.addObject("Center Gear then Shoot", "centerGearShoot");
+		chooseAutonomous.addObject("Left Gear from Boiler", "leftGearBoiler");
+		chooseAutonomous.addObject("Left Gear from Retrieval Zone", "leftGearRZone");
+		chooseAutonomous.addObject("Right Gear from Boiler", "rightGearBoiler");
+		chooseAutonomous.addObject("Right Gear from Retrieval Zone", "rightGearRZone");
+		chooseAutonomous.addObject("Left Gear from Boiler then Shoot", "leftGearBoilerShoot");
+		chooseAutonomous.addObject("Right Gear from Boiler then Shoot", "rightGearBoilerShoot");
+		chooseAutonomous.addObject("Shoot then Left Gear", "shootLeftGears");
+			 
 		leds3 = new PWM(3); 
 		 
 		prefs = Preferences.getInstance(); 
@@ -228,8 +212,60 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		Sensors.resetEncoders();
+		String auto = chooseAutonomous.getSelected(); 
 		
+		if(auto.equals("crossOnly"))
+		{
+			
+		}
+		if(auto.equals("shootOnly"))
+		{
+			
+		}
+		if(auto.equals("leftGearRZone"))
+		{
+			
+		}
+		if(auto.equals("leftGearBoiler"))
+		{
+			
+		}
+		if(auto.equals("centerGearShoot"))
+		{
+			
+		}
+		if(auto.equals("centerGearOnly"))
+		{
+			
+		}
+		if(auto.equals("leftGearRZone"))
+		{
+			
+		}
+		if(auto.equals("rightGearBoiler"))
+		{
+			
+		}
+		if(auto.equals("rightGearRZone"))
+		{
+			
+		}if(auto.equals("shootLeftGears"))
+		{
+			
+		}
+		if(auto.equals("rightGearBoilerShoot"))
+		{
+			
+		}
+		if(auto.equals("leftGearBoilerShoot"))
+		{
+			
+		}			
+				
 		autonomousCommand = new AutoRedBoilerGearShoot();
+		
+		if (autonomousCommand != null)
+			autonomousCommand.start(); 
 		
 //		VisionPID.piTable.putBoolean("HGVision Enabled", VisionPID.hGVision); 
 //		VisionPID.piTable.putBoolean("Gear Vision Enabled", VisionPID.gearVision);
@@ -257,8 +293,7 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+	
 	}
 
 	/**

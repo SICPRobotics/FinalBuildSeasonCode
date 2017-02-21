@@ -6,9 +6,11 @@ public class AutoRedBoilerGearShoot extends CommandGroup
 {
 	public AutoRedBoilerGearShoot()
 	{
-		 addSequential(new DriveForward(42));
-	     addSequential(new TurnLeftFast(-55));
-	     addSequential(new TurnRightSlow(-55));
+		//TODO: test this distance
+		
+		addSequential(new DriveForward(42));
+	     addSequential(new TurnLeftFast(55));
+	     addSequential(new TurnRightSlow(55));
 	     addSequential(new ResetEncoder());
 	     addSequential(new GearCG());
 	     addSequential(new ResetGyro());
