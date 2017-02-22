@@ -17,7 +17,7 @@ public class Sensors extends Subsystem
 	
 	public Sensors()
 	{
-		gyro  = new ADXRS450_Gyro();
+		if (gyro == null) gyro = new ADXRS450_Gyro();
 //		ultra = new AnalogInput(1);
 		leftEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(.1);

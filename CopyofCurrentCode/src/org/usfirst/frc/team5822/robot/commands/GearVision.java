@@ -19,7 +19,7 @@ public class GearVision extends Command {
     	
      
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() 
     {
@@ -38,7 +38,7 @@ public class GearVision extends Command {
     protected void execute() 
     {
     
-    	System.out.println("CENTER VALUE: " + VisionPID.piTable.getNumber("Center G", 0));
+    	System.out.println("Gear Vision - CENTER VALUE: " + VisionPID.piTable.getNumber("Center G", 0));
     
     }
 

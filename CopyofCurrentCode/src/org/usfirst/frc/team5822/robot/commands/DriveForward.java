@@ -30,8 +30,9 @@ double distance;
 	@Override
 	protected void initialize() 
 	{
+		Sensors.resetGyro();
 		Robot.vision.disable();
-		DriveTrain.pidBackwards(false);
+		DriveTrain.pidBackwards(true);
 		Robot.driveTrain.enable();
 	}
 

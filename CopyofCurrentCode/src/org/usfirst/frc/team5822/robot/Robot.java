@@ -58,42 +58,37 @@ public class Robot extends IterativeRobot {
 	CvSink cvSink1; 
 	CvSource cvSource1;
 	
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
 	PWM leds3;
 	public static Preferences prefs; 
-	 
 	
-	SendableChooser<String> chooseAutonomous; 
+	SendableChooser<Command> chooseAutonomous; 
 
-	public Robot() {
-		chooseAutonomous = new SendableChooser<>(); 
-		
-	}
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
 	@Override
-	public void robotInit() {
+	public void robotInit() 
+	{
+		chooseAutonomous = new SendableChooser<Command>(); 
+		
 		vision = new VisionPID();
-		//Robot.driveTrain = new DriveTrain();
-		oi = new OI();
+		oi = new OI();		
+		
+		chooseAutonomous.addDefault("Cross Baseline Only", new AutoCrossBaseline());
+		chooseAutonomous.addObject("Shoot Only", new AutoShoot());
+		chooseAutonomous.addObject("Center Gear Only", new AutoCenterGear());
+
+		chooseAutonomous.addObject("Center Gear then Shoot at Blue", new AutoBlueCenterGearShoot());
+		chooseAutonomous.addObject("Gear at Blue Boiler", new AutoBlueBoilerGear());
+		chooseAutonomous.addObject("Gear then Shoot at Blue Boiler", new AutoBlueBoilerGearShoot());
+		//chooseAutonomous.addObject("Shoot then Gear at Blue Boiler", new AutoBlueBoilerShootGear());
+		chooseAutonomous.addObject("Gear at Blue Retrieval Zone", new AutoBlueRetrievalZoneGear());
+		
+		chooseAutonomous.addObject("Center Gear then Shoot at Red", new AutoRedCenterGearShoot());
+		chooseAutonomous.addObject("Gear at Red Boiler", new AutoRedBoilerGear());
+		chooseAutonomous.addObject("Gear then Shoot at Red Boiler", new AutoRedBoilerGearShoot());
+		//chooseAutonomous.addObject("Shoot then Gear at Red Boiler", new AutoRedBoilerShootGear());
+		chooseAutonomous.addObject("Gear at Red Retrieval Zone", new AutoRedRetrievalZoneGear());
+	 		
 		SmartDashboard.putData("Auto mode", chooseAutonomous);
 		
-		chooseAutonomous.addObject("Cross Baseline Only", "crossOnly");
-		chooseAutonomous.addObject("Shoot Only", "shootOnly");
-		chooseAutonomous.addObject("Center Gear Only", "centerGearOnly");
-		chooseAutonomous.addObject("Center Gear then Shoot", "centerGearShoot");
-		chooseAutonomous.addObject("Left Gear from Boiler", "leftGearBoiler");
-		chooseAutonomous.addObject("Left Gear from Retrieval Zone", "leftGearRZone");
-		chooseAutonomous.addObject("Right Gear from Boiler", "rightGearBoiler");
-		chooseAutonomous.addObject("Right Gear from Retrieval Zone", "rightGearRZone");
-		chooseAutonomous.addObject("Left Gear from Boiler then Shoot", "leftGearBoilerShoot");
-		chooseAutonomous.addObject("Right Gear from Boiler then Shoot", "rightGearBoilerShoot");
-		chooseAutonomous.addObject("Shoot then Left Gear", "shootLeftGears");
-			 
 		leds3 = new PWM(3); 
 		 
 		prefs = Preferences.getInstance(); 
@@ -137,7 +132,7 @@ public class Robot extends IterativeRobot {
 		});
 		updateSmartDashBoard.start();*/
 		
-		Thread t = new Thread(() -> {
+		/*Thread t = new Thread(() -> {
 			try {
 				cam0 = new UsbCamera ("USB Camera 0", 0);
 				cam0.setResolution(320,240);
@@ -180,7 +175,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		);
-        t.start();
+        t.start();*/
 	}
 
 	/**
@@ -212,60 +207,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		Sensors.resetEncoders();
-		String auto = chooseAutonomous.getSelected(); 
 		
-		if(auto.equals("crossOnly"))
-		{
-			
-		}
-		if(auto.equals("shootOnly"))
-		{
-			
-		}
-		if(auto.equals("leftGearRZone"))
-		{
-			
-		}
-		if(auto.equals("leftGearBoiler"))
-		{
-			
-		}
-		if(auto.equals("centerGearShoot"))
-		{
-			
-		}
-		if(auto.equals("centerGearOnly"))
-		{
-			
-		}
-		if(auto.equals("leftGearRZone"))
-		{
-			
-		}
-		if(auto.equals("rightGearBoiler"))
-		{
-			
-		}
-		if(auto.equals("rightGearRZone"))
-		{
-			
-		}if(auto.equals("shootLeftGears"))
-		{
-			
-		}
-		if(auto.equals("rightGearBoilerShoot"))
-		{
-			
-		}
-		if(auto.equals("leftGearBoilerShoot"))
-		{
-			
-		}			
-				
-		autonomousCommand = new AutoRedBoilerGearShoot();
+		autonomousCommand = (Command) chooseAutonomous.getSelected();
+		
 		
 		if (autonomousCommand != null)
+		{
+			System.out.println(autonomousCommand.getName());
 			autonomousCommand.start(); 
+			
+		}
 		
 //		VisionPID.piTable.putBoolean("HGVision Enabled", VisionPID.hGVision); 
 //		VisionPID.piTable.putBoolean("Gear Vision Enabled", VisionPID.gearVision);

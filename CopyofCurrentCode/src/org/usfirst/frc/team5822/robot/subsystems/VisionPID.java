@@ -40,6 +40,8 @@ public class VisionPID extends PIDSubsystem {
 	private static final int BOTHG = 60;
 	private static final int BOTSG = 157;
 	private static final int BOTVG = 58;
+	
+	public int visionDistance; 
 
 	public static NetworkTable piTable;
 	ITableListener_WB piListen;
@@ -52,10 +54,13 @@ public class VisionPID extends PIDSubsystem {
 	public static boolean gearDone;
 	public static boolean HGDone;
 	
+
+	
 	public VisionPID() {
 		super(.2, 0, 0);
 		piListen = new ITableListener_WB();
 		setAbsoluteTolerance(0.005);
+		visionDistance = 55; 
 		
 		NetworkTable.setServerMode();
 		piTable = NetworkTable.getTable("piTable"); 
@@ -126,13 +131,14 @@ public class VisionPID extends PIDSubsystem {
 		
 	}
 
+	
 	@Override
 	protected double returnPIDInput()
 	{
 		//TODO: tilt camera down so this number is less
 		if(RobotState.isAutonomous())
 		{
-			if (Sensors.rightEncoderDistance() > 45)
+			if (Sensors.rightEncoderDistance() > visionDistance)
 			{
 					changeGearDone(true); 
 			}
@@ -200,13 +206,13 @@ public class VisionPID extends PIDSubsystem {
 			}
 			else if (distance>20)
 			{
-				DriveTrain.drive.setLeftRightMotorOutputs(-.125-(.035*output), -.125+(.035*output));
+				DriveTrain.drive.setLeftRightMotorOutputs(-.16-(.05*output), -.16+(.05*output));
 				System.out.println("FORWARD!");
 			}
 			
 			else if (distance<10)
 			{
-				DriveTrain.drive.setLeftRightMotorOutputs(-.125, -.125);
+				DriveTrain.drive.setLeftRightMotorOutputs(-.2, -.2);
 				System.out.println("BACKWARD!");
 			}
 		}

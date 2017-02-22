@@ -8,14 +8,7 @@ public class AutoRedBoilerGearShoot extends CommandGroup
 	{
 		//TODO: test this distance
 		
-		addSequential(new DriveForward(42));
-	     addSequential(new TurnLeftFast(55));
-	     addSequential(new TurnRightSlow(55));
-	     addSequential(new ResetEncoder());
-	     addSequential(new GearCG());
-	     addSequential(new ResetGyro());
-	     addSequential(new DriveForward(67));
-	     addSequential(new DriveSlow(2));
+		addSequential(new AutoRedBoilerGear());
 			
 	    addSequential(new ResetEncoder());
 	    addSequential(new ResetGyro()); 

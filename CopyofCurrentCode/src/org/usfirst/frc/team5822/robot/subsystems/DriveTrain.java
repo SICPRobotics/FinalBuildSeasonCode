@@ -57,9 +57,9 @@ public class DriveTrain extends PIDSubsystem
 	
     protected void usePIDOutput(double output) {
     	if(isBackwards)
-    		drive.setLeftRightMotorOutputs(-.25 + output, -.25 - output); // this is where the computed output value fromthe PIDController is applied to the motor
+    		drive.setLeftRightMotorOutputs(-.4 + output, -.4 - output); // this is where the computed output value fromthe PIDController is applied to the motor
     	else 
-    		drive.setLeftRightMotorOutputs(.25 - output, .25 + output); //TODO: does this work? 
+    		drive.setLeftRightMotorOutputs(.4 - output, .4 + output); //TODO: does this work? 
     	
     }
 	
@@ -76,7 +76,7 @@ public class DriveTrain extends PIDSubsystem
 	public static void turnLeftSlow()
 	{
 		//turn left real slow boi
-		drive.setLeftRightMotorOutputs(-.2, .2);
+		drive.setLeftRightMotorOutputs(-.22, .22);
 	
 	}
 	
@@ -89,14 +89,13 @@ public class DriveTrain extends PIDSubsystem
 	public static void turnRightSlow()
 	{
 		//turn right super duper slowly maaaaaan
-		drive.setLeftRightMotorOutputs(0.2, -.2);
+		drive.setLeftRightMotorOutputs(0.22, -.22);
 	}
 	
 	public static void turnRightFast()
 	{
 		//turn right super duper fast boiiiii
-		drive.setLeftRightMotorOutputs(0.5, -0.5);
-		
+		drive.drive(0.3, 1);
 	}
 	
 	public void changeIsTurning(boolean val)
